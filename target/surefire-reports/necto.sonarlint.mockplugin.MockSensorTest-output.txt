@@ -1,0 +1,6 @@
+INFO  1 source file to be analyzed
+INFO  1 source file to be analyzed
+WARN  Unable to analyze file invalid-path.txt: /home/arseniy/proj/sonarlint-mockplugin/invalid-path.txt
+INFO  1/1 source file has been analyzed
+INFO  1 source file to be analyzed
+INFO  1/1 source file has been analyzed

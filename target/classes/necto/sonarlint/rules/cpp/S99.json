@@ -1,0 +1,18 @@
+{
+  "title": "This rule is a lie",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "mock-rule"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-99",
+  "sqKey": "S99",
+  "scope": "All",
+  "quickfix": "unknown",
+  "securityStandards": { }
+}

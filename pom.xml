@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonarsource.parent</groupId>
+    <artifactId>parent</artifactId>
+    <version>68.0.0.247</version>
+  </parent>
+
+  <!-- TODO: rename: -->
+  <artifactId>sonar-text-plugin</artifactId>
+  <groupId>necto.sonarlint</groupId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>sonar-plugin</packaging>
+
+  <name>SonarLint Mock Plugin</name>
+  <description>Mock Plugin For Integration Testing</description>
+  <inceptionYear>2023</inceptionYear>
+  <licenses>
+    <license>
+      <name>GNU LGPL 3</name>
+      <url>https://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>http://github.com/necto/sonarlint-mockplugin/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>GitHub</system>
+    <url>http://github.com/necto/sonarlint-mockplugin/actions</url>
+  </ciManagement>
+
+
+  <developers>
+    <developer>
+      <id>necto</id>
+      <name>Arseniy Zaostrovnykh</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:necto/sonarlint-mockplugin.git</connection>
+    <developerConnection>scm:git:git@github.com:necto/sonarlint-mockplugin.git</developerConnection>
+    <url>https://github.com/necto/sonarlint-mockplugin</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <sonar.pluginClass>necto.sonarlint.mockplugin.MockPlugin</sonar.pluginClass>
+    <sonar.pluginName>Mock Plugin For Integration Testing</sonar.pluginName>
+
+    <license.title>SonarLint Mock Plugin</license.title>
+    <license.mailto> arseniy AT zaostrovnykh DOT ch </license.mailto>
+    <license.owner> Arseniy Zaostrovnykh </license.owner>
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+    <gitRepositoryName>sonarlint-mockplugin</gitRepositoryName>
+
+    <!-- dependency versions -->
+    <sonar.version>9.8.0.63668</sonar.version>
+    <sonar.api.version>9.13.0.360</sonar.api.version>
+    <analyzer.commons.version>2.5.0.1358</analyzer.commons.version>
+    <orchestrator.version>3.40.0.183</orchestrator.version>
+    <junit.version>5.9.1</junit.version>
+    <assertj.version>3.23.1</assertj.version>
+    <findbugs.version>3.0.2</findbugs.version>
+    <jackson.version>2.15.1</jackson.version>
+    <networknt.version>1.0.81</networknt.version>
+
+    <!-- Advertise minimal required JRE version -->
+    <jre.min.version>11</jre.min.version>
+
+    <!-- JDK Build versions -->
+    <jdk.min.version>11</jdk.min.version>
+    <jdk.source.version>11</jdk.source.version>
+    <jdk.target.version>11</jdk.target.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonarsource.api.plugin</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>${sonar.api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.analyzer-commons</groupId>
+      <artifactId>sonar-analyzer-commons</artifactId>
+      <version>${analyzer.commons.version}</version>
+    </dependency>
+
+    <!-- unit tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api-impl</artifactId>
+      <version>${sonar.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <configuration>
+          <pluginName>SonarLint Mock Plugin For Integration Testing</pluginName>
+          <skipDependenciesPackaging>true</skipDependenciesPackaging>
+          <pluginClass>necto.sonarlint.mockplugin.MockPlugin</pluginClass>
+          <sonarLintSupported>true</sonarLintSupported>
+          <sonarQubeMinVersion>9.8</sonarQubeMinVersion>
+          <jreMinVersion>11</jreMinVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <minimizeJar>true</minimizeJar>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/LICENSE*</exclude>
+                    <exclude>META-INF/NOTICE*</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>LICENSE*</exclude>
+                    <exclude>NOTICE*</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>xerces:xercesImpl</artifact>
+                  <includes>
+                    <include>**</include>
+                  </includes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
